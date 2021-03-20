@@ -4,6 +4,9 @@ import Layout from "../components/layout"
 export default function Home() {
   return (
   	<Layout>
+    <head>
+        <title>SSLskimmer</title>
+      </head>
   		<body>
     <div>
         <h1>SSLskimmer</h1>
