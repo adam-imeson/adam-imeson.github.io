@@ -1,7 +1,7 @@
 {
-  "name": "gatsby-starter-hello-world",
+  "name": "adam-imeson.github.io",
   "private": true,
-  "description": "A simplified bare-bones starter for Gatsby",
+  "description": "gatsby-based personal site",
   "version": "0.1.0",
   "license": "0BSD",
   "scripts": {
@@ -25,9 +25,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-hello-world"
+    "url": "https://github.com/adam-imeson/adam-imeson.github.io"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/adam-imeson/adam-imeson.github.io/issues"
   }
 }
