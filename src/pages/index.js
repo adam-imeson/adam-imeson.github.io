@@ -9,7 +9,7 @@ export default function Home() {
   			<title>mfw cloud</title>
   		</head>
   		<div>
-  			<img class="center-fit" src={InternetJpg} alt="" />
+  			<img src={InternetJpg} alt="" />
   		</div>
   	</Layout>
   );
