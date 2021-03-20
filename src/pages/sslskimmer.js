@@ -34,8 +34,7 @@ of MITM attacks such as the large error messages and warning screens
 that most browsers provide.  This results in a situation of herd 
 immunity; the uninoculated users are protected from broad-spectrum 
 attacks by the immune.</p>
-        <p>I propose a method for circumventing this crowd-based defence.  Lee Brotherston has demonstrated the viability of <a href="https://github.com/LeeBrotherston/tls-fingerprinting">TLS fingerprinting,</a>
- where we examine Client Hello messages to determine traits of the 
+        <p>I propose a method for circumventing this crowd-based defence.  Lee Brotherston has demonstrated the viability of <a href="https://github.com/LeeBrotherston/tls-fingerprinting">TLS fingerprinting,</a> where we examine Client Hello messages to determine traits of the 
 system that sent each message.  By checking the TLS version, available 
 ciphersuites, and ordering of available ciphersuites against a prebuilt 
 database of known Client Hello traits, we can determine which variety of
@@ -44,8 +43,7 @@ information it is possible to selectively attack only users who are
 known to be vulnerable while we fly under the radar of everyone who 
 isn't, thereby resurrecting an attack previously considered to be 
 obsolete.</p>
-        <p>I've put together a <a href="https://github.com/adam-imeson/sslskimmer">git repo</a>
- of relevant tools and instructions.  I was able to selectively target 
+        <p>I've put together a <a href="https://github.com/adam-imeson/sslskimmer">git repo</a> of relevant tools and instructions.  I was able to selectively target 
 individual devices after gaining information on their TLS 
 configurations.  Primary recommendation: enforce a canonical ordering of
  TLS ciphersuites in Client Hellos.  Secondary recommendation: avoid 
