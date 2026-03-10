@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState, useCallback } from "react"
 import Layout from "../components/layout"
 
-const W = 600
-const H = 480
+const CANVAS_W = 600
+const CANVAS_H = 480
+const W = 1200
+const H = 960
+const SCALE = CANVAS_W / W
 const SHIP_SIZE = 12
 const TURN_SPEED = 0.07
 const THRUST = 0.12
@@ -223,9 +226,11 @@ export default function Asteroids() {
     if (!ctx || !g) return
 
     ctx.fillStyle = "#000"
-    ctx.fillRect(0, 0, W, H)
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H)
+    ctx.save()
+    ctx.scale(SCALE, SCALE)
     ctx.strokeStyle = "#fff"
-    ctx.lineWidth = 1.5
+    ctx.lineWidth = 1.5 / SCALE
 
     // Ship
     const ship = g.ship
@@ -284,10 +289,12 @@ export default function Asteroids() {
     // Pause overlay
     if (g.paused) {
       ctx.fillStyle = "rgba(255,255,255,0.7)"
-      ctx.font = "24px monospace"
+      ctx.font = "48px monospace"
       ctx.textAlign = "center"
       ctx.fillText("PAUSED", W / 2, H / 2)
     }
+
+    ctx.restore()
   }, [])
 
   // Game loop
@@ -350,7 +357,7 @@ export default function Asteroids() {
     const ctx = canvasRef.current?.getContext("2d")
     if (ctx) {
       ctx.fillStyle = "#000"
-      ctx.fillRect(0, 0, W, H)
+      ctx.fillRect(0, 0, CANVAS_W, CANVAS_H)
     }
   }, [])
 
@@ -372,8 +379,8 @@ export default function Asteroids() {
         <div>
           <canvas
             ref={canvasRef}
-            width={W}
-            height={H}
+            width={CANVAS_W}
+            height={CANVAS_H}
             style={{ border: "2px solid #333", background: "#000" }}
           />
         </div>
