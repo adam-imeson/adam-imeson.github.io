@@ -10,7 +10,7 @@ const FRICTION = 0.99
 const BULLET_SPEED = 6
 const BULLET_LIFE = 60
 const MAX_BULLETS = 8
-const ASTEROID_SPEED = 1.5
+const ASTEROID_SPEED = 0.75
 const INITIAL_ASTEROIDS = 4
 
 function wrap(x, y) {
