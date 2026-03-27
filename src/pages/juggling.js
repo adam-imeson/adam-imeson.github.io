@@ -8,6 +8,7 @@ const BOUNCE_DAMPING = 0.6
 const FLOOR_PADDING = 60
 const TRAIL_LENGTH = 12
 const CLICK_COOLDOWN = 500 // ms
+const MIN_COOLDOWN = 200 // ms
 
 const COLORS = [
   { light: "#ff6666", dark: "#cc0000" }, // Red
@@ -128,6 +129,7 @@ function createBall(x, y, colorIndex) {
     color: colorIndex,
     trail: [],
     lastClickTime: 0,
+    cooldownDuration: CLICK_COOLDOWN,
     verticalBounces: 0,
     clicksSinceCeiling: 0,
   }
@@ -169,9 +171,9 @@ function lerpColor(hex, factor) {
 
 function ballColorFactor(ball, now) {
   const elapsed = now - ball.lastClickTime
-  if (elapsed >= CLICK_COOLDOWN) return 1
+  if (elapsed >= ball.cooldownDuration) return 1
   // During cooldown: lerp from 0 to 0.5, then snap to 1
-  const t = elapsed / CLICK_COOLDOWN
+  const t = elapsed / ball.cooldownDuration
   return t * 0.5
 }
 
@@ -263,7 +265,7 @@ export default function Juggling() {
     let directHit = false
     let cooldownHit = false
     for (const ball of g.balls) {
-      const onCooldown = now - ball.lastClickTime < CLICK_COOLDOWN
+      const onCooldown = now - ball.lastClickTime < ball.cooldownDuration
       const dist = Math.hypot(ball.x - mx, ball.y - my)
       const onBall = dist < ball.radius
       const onTrail = !onBall && pointInTrail(mx, my, ball)
@@ -303,12 +305,14 @@ export default function Juggling() {
       closest.vx = 0
       closest.vy = -LAUNCH_SPEED
       closest.lastClickTime = now
+      closest.cooldownDuration = CLICK_COOLDOWN
       closest.clicksSinceCeiling++
       if (closest.clicksSinceCeiling >= 3) closest.verticalBounces = 0
       addScore(2)
       playClick()
     } else if (closestDist < HIT_RADIUS) {
-      const strength = LAUNCH_SPEED * (1 - (closestDist - closest.radius) / (HIT_RADIUS - closest.radius))
+      const strengthRatio = 1 - (closestDist - closest.radius) / (HIT_RADIUS - closest.radius)
+      const strength = LAUNCH_SPEED * strengthRatio
       const dx = closest.x - mx
       const dy = closest.y - my
       const nx = dx / closestDist
@@ -316,6 +320,7 @@ export default function Juggling() {
       closest.vx = nx * strength
       closest.vy = ny * strength
       closest.lastClickTime = now
+      closest.cooldownDuration = MIN_COOLDOWN + (CLICK_COOLDOWN - MIN_COOLDOWN) * strengthRatio
       closest.clicksSinceCeiling++
       if (closest.clicksSinceCeiling >= 3) closest.verticalBounces = 0
       addScore(1)
@@ -380,11 +385,13 @@ export default function Juggling() {
         ball.x = ball.radius
         ball.vx = Math.abs(ball.vx) * BOUNCE_DAMPING
         ball.verticalBounces = 0
+        addScore(3)
       }
       if (ball.x > w - ball.radius) {
         ball.x = w - ball.radius
         ball.vx = -Math.abs(ball.vx) * BOUNCE_DAMPING
         ball.verticalBounces = 0
+        addScore(3)
       }
     }
   }, [resetScore, addScore])
@@ -490,7 +497,7 @@ export default function Juggling() {
         "Click near a ball to push it away.",
         "Don't let any ball hit the ground!",
         "",
-        "Direct hit: 2 pts \u00b7 Near hit: 1 pt \u00b7 Ceiling bounce: 1 pt",
+        "Direct hit: 2 pts \u00b7 Near hit: 1 pt \u00b7 Ceiling: 1 pt \u00b7 Wall: 3 pts",
         "Score is multiplied by the number of balls.",
       ]
       const fontSize = Math.max(14, Math.min(20, w / 50))
