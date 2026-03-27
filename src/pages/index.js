@@ -47,6 +47,7 @@ export default function Home() {
           </h3>
           <Link to="/tetris/" style={linkStyle}><strong>Tetris</strong></Link>
           <Link to="/asteroids/" style={linkStyle}><strong>Asteroids</strong></Link>
+          <Link to="/juggling/" style={linkStyle}><strong>Juggling</strong></Link>
         </nav>
       </div>
     </Layout>
