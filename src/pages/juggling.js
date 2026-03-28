@@ -190,6 +190,7 @@ export default function Juggling() {
   const [isMuted, setIsMuted] = useState(false)
   const [shareStatus, setShareStatus] = useState("")
   const firstClickRef = useRef(0) // timestamp of first successful click
+  const highScoreBallsRef = useRef([0]) // ball colors when high score was set
 
   const updateScoreDisplay = useCallback(() => {
     const s = scoreRef.current
@@ -198,6 +199,9 @@ export default function Juggling() {
     if (multiplied > s.high) {
       s.high = multiplied
       setDisplayHigh(multiplied)
+      if (gameRef.current) {
+        highScoreBallsRef.current = gameRef.current.balls.map(b => b.color)
+      }
     }
   }, [])
 
@@ -594,7 +598,7 @@ export default function Juggling() {
               const g = gameRef.current
               if (!g || !displayHigh) return
 
-              const ballColors = g.balls.map(b => b.color)
+              const ballColors = highScoreBallsRef.current
               const pad = 16
               const ballR = 14
               const ballSpacing = 34
