@@ -48,6 +48,7 @@ export default function Home() {
           <Link to="/tetris/" style={linkStyle}><strong>Tetris</strong></Link>
           <Link to="/asteroids/" style={linkStyle}><strong>Asteroids</strong></Link>
           <Link to="/juggling/" style={linkStyle}><strong>Juggling</strong></Link>
+          <Link to="/flipboard/" style={linkStyle}><strong>FlipBoard</strong></Link>
           <a href="/gambits/" style={linkStyle}><strong>Chess: Bamboozle Lab</strong></a>
         </nav>
       </div>
